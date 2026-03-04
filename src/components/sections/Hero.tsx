@@ -2,117 +2,232 @@
 
 import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
-import { ArrowRight, Sparkles } from "lucide-react";
+import { ArrowRight, Sparkles, Zap } from "lucide-react";
+import { useEffect, useState } from "react";
 
 export function Hero() {
+  const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
+
+  useEffect(() => {
+    const handleMouseMove = (e: MouseEvent) => {
+      setMousePosition({
+        x: (e.clientX / window.innerWidth) * 100,
+        y: (e.clientY / window.innerHeight) * 100,
+      });
+    };
+    window.addEventListener("mousemove", handleMouseMove);
+    return () => window.removeEventListener("mousemove", handleMouseMove);
+  }, []);
+
   return (
-    <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
-      {/* Animated gradient background */}
-      <div className="absolute inset-0 bg-gradient-to-br from-slate-950 via-blue-950 to-slate-950 animate-gradient" />
-      
-      {/* Glowing orbs */}
-      <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-blue-500/20 rounded-full blur-3xl animate-pulse" />
-      <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-cyan-500/20 rounded-full blur-3xl animate-pulse delay-1000" />
-      
-      {/* Grid overlay */}
-      <div className="absolute inset-0 bg-[linear-gradient(to_right,#4f4f4f12_1px,transparent_1px),linear-gradient(to_bottom,#4f4f4f12_1px,transparent_1px)] bg-[size:64px_64px]" />
-      
+    <section className="relative min-h-screen flex items-center justify-center overflow-hidden bg-black">
+      {/* Scan line effect */}
+      <div className="scan-line" />
+
+      {/* Cyber grid background */}
+      <div className="absolute inset-0 cyber-grid opacity-30" />
+
+      {/* INSANE animated gradient mesh */}
+      <div 
+        className="absolute inset-0 animate-gradient-wild opacity-60"
+        style={{
+          background: `radial-gradient(circle at ${mousePosition.x}% ${mousePosition.y}%, 
+            rgba(0, 255, 255, 0.3) 0%, 
+            rgba(255, 0, 255, 0.3) 25%, 
+            rgba(255, 255, 0, 0.2) 50%, 
+            transparent 70%)`
+        }}
+      />
+
+      {/* Morphing blobs */}
+      <div className="absolute top-20 left-20 w-96 h-96 bg-gradient-to-r from-cyan-500 via-purple-500 to-pink-500 rounded-full blur-3xl opacity-50 animate-morph animate-float" />
+      <div className="absolute bottom-20 right-20 w-96 h-96 bg-gradient-to-r from-yellow-500 via-red-500 to-purple-500 rounded-full blur-3xl opacity-50 animate-morph animate-float-reverse" 
+           style={{ animationDelay: '2s' }} />
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500 rounded-full blur-3xl opacity-40 animate-morph animate-spin-slow" />
+
+      {/* Floating geometric shapes */}
+      <motion.div
+        className="absolute top-40 right-40 w-20 h-20 border-2 border-cyan-400 rotate-45 animate-pulse-glow"
+        animate={{
+          y: [0, -30, 0],
+          rotate: [45, 225, 45],
+        }}
+        transition={{
+          duration: 8,
+          repeat: Infinity,
+          ease: "easeInOut",
+        }}
+      />
+      <motion.div
+        className="absolute bottom-40 left-40 w-16 h-16 border-2 border-magenta-400 rounded-full animate-pulse-glow"
+        animate={{
+          scale: [1, 1.5, 1],
+          rotate: [0, 180, 360],
+        }}
+        transition={{
+          duration: 6,
+          repeat: Infinity,
+          ease: "easeInOut",
+        }}
+      />
+
       {/* Content */}
       <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-32">
         <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8 }}
+          initial={{ opacity: 0, scale: 0.8 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ duration: 1, type: "spring" }}
           className="text-center"
         >
-          {/* Badge */}
+          {/* Glitchy badge */}
           <motion.div
-            initial={{ opacity: 0, scale: 0.9 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ delay: 0.2 }}
-            className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-blue-500/10 border border-blue-500/20 mb-8"
+            className="inline-flex items-center gap-2 px-6 py-3 rounded-full glass-strong mb-8 border-2 border-cyan-400/50 animate-pulse-glow"
+            animate={{
+              boxShadow: [
+                "0 0 20px rgba(0, 255, 255, 0.5)",
+                "0 0 40px rgba(255, 0, 255, 0.5)",
+                "0 0 20px rgba(0, 255, 255, 0.5)",
+              ],
+            }}
+            transition={{ duration: 2, repeat: Infinity }}
           >
-            <Sparkles className="w-4 h-4 text-blue-400" />
-            <span className="text-sm text-blue-300">AI-Powered Credit Intelligence</span>
+            <Sparkles className="w-5 h-5 text-cyan-400 animate-spin-slow" />
+            <span className="text-sm font-bold text-holographic tracking-wider">
+              FUTURE OF CREDIT INTELLIGENCE
+            </span>
+            <Zap className="w-5 h-5 text-magenta-400" />
           </motion.div>
 
-          {/* Main headline */}
+          {/* MASSIVE holographic headline */}
           <motion.h1
-            initial={{ opacity: 0, y: 20 }}
+            initial={{ opacity: 0, y: 50 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.3 }}
-            className="text-6xl md:text-7xl lg:text-8xl font-bold mb-6 leading-tight"
+            transition={{ delay: 0.2, duration: 0.8 }}
+            className="text-7xl md:text-8xl lg:text-9xl font-black mb-8 leading-none tracking-tighter"
           >
-            <span className="bg-gradient-to-r from-white via-blue-100 to-cyan-100 bg-clip-text text-transparent">
-              AI-Powered
-            </span>
-            <br />
-            <span className="bg-gradient-to-r from-blue-400 via-cyan-400 to-blue-500 bg-clip-text text-transparent">
-              Credit Decisioning
-            </span>
+            <motion.span
+              className="block text-holographic drop-shadow-2xl"
+              animate={{
+                scale: [1, 1.02, 1],
+              }}
+              transition={{ duration: 3, repeat: Infinity }}
+            >
+              AI-POWERED
+            </motion.span>
+            <motion.span
+              className="block neon-cyan mt-4"
+              animate={{
+                textShadow: [
+                  "0 0 10px rgba(0,255,255,0.8), 0 0 20px rgba(0,255,255,0.6), 0 0 30px rgba(0,255,255,0.4)",
+                  "0 0 20px rgba(255,0,255,0.8), 0 0 40px rgba(255,0,255,0.6), 0 0 60px rgba(255,0,255,0.4)",
+                  "0 0 10px rgba(0,255,255,0.8), 0 0 20px rgba(0,255,255,0.6), 0 0 30px rgba(0,255,255,0.4)",
+                ],
+              }}
+              transition={{ duration: 2, repeat: Infinity }}
+            >
+              CREDIT
+            </motion.span>
+            <motion.span
+              className="block neon-magenta mt-4"
+              animate={{
+                scale: [1, 1.05, 1],
+              }}
+              transition={{ duration: 2, repeat: Infinity, delay: 0.5 }}
+            >
+              DECISIONING
+            </motion.span>
           </motion.h1>
 
-          {/* Subheadline */}
+          {/* Glowing subheadline */}
           <motion.p
-            initial={{ opacity: 0, y: 20 }}
+            initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.4 }}
-            className="text-xl md:text-2xl text-slate-300 mb-12 max-w-3xl mx-auto leading-relaxed"
+            className="text-xl md:text-2xl text-cyan-200 mb-12 max-w-4xl mx-auto leading-relaxed font-light"
           >
-            Empower your risk team with machine learning models that{" "}
-            <span className="text-blue-400 font-semibold">approve faster</span>,{" "}
-            <span className="text-cyan-400 font-semibold">default less</span>, and{" "}
-            <span className="text-blue-400 font-semibold">scale infinitely</span>.
+            <span className="text-cyan-400 font-bold">Approve faster.</span>{" "}
+            <span className="text-magenta-400 font-bold">Default less.</span>{" "}
+            <span className="text-yellow-400 font-bold">Scale infinitely.</span>
+            <br />
+            <span className="text-slate-400">Machine learning that evolves with every decision.</span>
           </motion.p>
 
-          {/* CTAs */}
+          {/* WILD CTAs */}
           <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.5 }}
-            className="flex flex-col sm:flex-row gap-4 justify-center items-center"
+            initial={{ opacity: 0, scale: 0.8 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ delay: 0.6, type: "spring" }}
+            className="flex flex-col sm:flex-row gap-6 justify-center items-center"
           >
-            <Button
-              size="lg"
-              className="bg-blue-600 hover:bg-blue-700 text-white px-8 py-6 text-lg rounded-full glow-blue group"
+            <motion.div
+              whileHover={{ scale: 1.1, rotate: [0, -2, 2, 0] }}
+              whileTap={{ scale: 0.95 }}
             >
-              Book a Demo
-              <ArrowRight className="ml-2 w-5 h-5 group-hover:translate-x-1 transition-transform" />
-            </Button>
-            <Button
-              size="lg"
-              variant="outline"
-              className="border-blue-500/50 text-blue-300 hover:bg-blue-500/10 px-8 py-6 text-lg rounded-full"
+              <Button
+                size="lg"
+                className="bg-gradient-to-r from-cyan-500 via-purple-500 to-magenta-500 hover:from-cyan-600 hover:via-purple-600 hover:to-magenta-600 text-white px-12 py-8 text-xl font-black rounded-full animate-pulse-glow border-2 border-white/20 group relative overflow-hidden"
+              >
+                <motion.span
+                  className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent"
+                  animate={{
+                    x: ["-100%", "200%"],
+                  }}
+                  transition={{
+                    duration: 2,
+                    repeat: Infinity,
+                    ease: "linear",
+                  }}
+                />
+                <span className="relative z-10 flex items-center gap-3">
+                  ENTER THE FUTURE
+                  <ArrowRight className="w-6 h-6 group-hover:translate-x-2 transition-transform" />
+                </span>
+              </Button>
+            </motion.div>
+
+            <motion.div
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
             >
-              Learn More
-            </Button>
+              <Button
+                size="lg"
+                className="glass-strong border-2 border-cyan-400/50 text-cyan-400 hover:bg-cyan-400/20 px-12 py-8 text-xl font-bold rounded-full backdrop-blur-xl"
+              >
+                WITNESS THE DEMO
+              </Button>
+            </motion.div>
           </motion.div>
 
-          {/* Trust indicators */}
+          {/* Animated trust indicators */}
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
-            transition={{ delay: 0.7 }}
-            className="mt-16 flex flex-wrap justify-center gap-8 text-sm text-slate-400"
+            transition={{ delay: 0.8 }}
+            className="mt-20 flex flex-wrap justify-center gap-8 text-sm"
           >
-            <div className="flex items-center gap-2">
-              <div className="w-2 h-2 bg-green-400 rounded-full animate-pulse" />
-              <span>SOC 2 Certified</span>
-            </div>
-            <div className="flex items-center gap-2">
-              <div className="w-2 h-2 bg-green-400 rounded-full animate-pulse" />
-              <span>GDPR Compliant</span>
-            </div>
-            <div className="flex items-center gap-2">
-              <div className="w-2 h-2 bg-green-400 rounded-full animate-pulse" />
-              <span>Bank-Grade Security</span>
-            </div>
+            {["SOC 2 TYPE II", "GDPR COMPLIANT", "ISO 27001", "BANK-GRADE ENCRYPTION"].map((badge, i) => (
+              <motion.div
+                key={badge}
+                className="flex items-center gap-2 px-4 py-2 glass rounded-full border border-cyan-400/30"
+                animate={{
+                  y: [0, -5, 0],
+                }}
+                transition={{
+                  duration: 2,
+                  repeat: Infinity,
+                  delay: i * 0.2,
+                }}
+              >
+                <div className="w-2 h-2 bg-cyan-400 rounded-full animate-pulse" />
+                <span className="text-cyan-400 font-mono text-xs">{badge}</span>
+              </motion.div>
+            ))}
           </motion.div>
         </motion.div>
       </div>
 
       {/* Bottom gradient fade */}
-      <div className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-slate-950 to-transparent" />
+      <div className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-black to-transparent pointer-events-none" />
     </section>
   );
 }
